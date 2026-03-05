@@ -1,31 +1,33 @@
 import java.util.Scanner;
+import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class PalindromeCheckerApp {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
 
-        System.out.println("Enter a number:");
-        int num = sc.nextInt();
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> stack = new Stack<>();
 
-        int original = num;
-        int reverse = 0;
-
-        while(num != 0) {
-
-            int digit = num % 10;
-            reverse = reverse * 10 + digit;
-            num = num / 10;
-
+        for (int i = 0; i < input.length(); i++) {
+            queue.add(input.charAt(i));
+            stack.push(input.charAt(i));
         }
 
-        if(original == reverse) {
-            System.out.println("Palindrome Number");
-        } else {
-            System.out.println("Not Palindrome Number");
+        System.out.print("Queue (FIFO): ");
+        while (!queue.isEmpty()) {
+            System.out.print(queue.poll());
         }
+        System.out.println();
 
+        System.out.print("Stack (LIFO): ");
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop());
+        }
+        System.out.println();
+
+        sc.close();
     }
-
 }
