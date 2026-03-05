@@ -2,10 +2,14 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    public static boolean isPalindrome(String str, int start, int end) {
-        if (start >= end) return true;
-        if (str.charAt(start) != str.charAt(end)) return false;
-        return isPalindrome(str, start + 1, end - 1);
+    public static boolean isPalindrome(String str) {
+        int start = 0, end = str.length() - 1;
+        while (start < end) {
+            if (str.charAt(start) != str.charAt(end)) return false;
+            start++;
+            end--;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -13,10 +17,13 @@ public class PalindromeCheckerApp {
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        if (isPalindrome(input, 0, input.length() - 1)) {
-            System.out.println(input + " is a Palindrome");
+        // Normalize string: remove spaces and convert to lowercase
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+
+        if (isPalindrome(normalized)) {
+            System.out.println(input + " is a Palindrome (ignoring spaces and case)");
         } else {
-            System.out.println(input + " is Not a Palindrome");
+            System.out.println(input + " is Not a Palindrome (ignoring spaces and case)");
         }
 
         sc.close();
