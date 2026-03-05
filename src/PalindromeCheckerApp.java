@@ -9,6 +9,8 @@ public class PalindromeCheckerApp {
         System.out.println("Enter a word:");
         String word = sc.nextLine();
 
+        word = word.toLowerCase();
+
         String reverse = "";
 
         for(int i = word.length()-1; i >= 0; i--) {
