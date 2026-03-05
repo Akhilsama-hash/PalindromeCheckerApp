@@ -6,21 +6,24 @@ public class PalindromeCheckerApp {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Enter a word:");
-        String word = sc.nextLine();
+        System.out.println("Enter a number:");
+        int num = sc.nextInt();
 
-        word = word.toLowerCase();
+        int original = num;
+        int reverse = 0;
 
-        String reverse = "";
+        while(num != 0) {
 
-        for(int i = word.length()-1; i >= 0; i--) {
-            reverse = reverse + word.charAt(i);
+            int digit = num % 10;
+            reverse = reverse * 10 + digit;
+            num = num / 10;
+
         }
 
-        if(word.equals(reverse)) {
-            System.out.println("Palindrome");
+        if(original == reverse) {
+            System.out.println("Palindrome Number");
         } else {
-            System.out.println("Not Palindrome");
+            System.out.println("Not Palindrome Number");
         }
 
     }
