@@ -1,44 +1,11 @@
 import java.util.Scanner;
 
-class Node {
-    char data;
-    Node next;
-    Node(char data) { this.data = data; this.next = null; }
-}
-
 public class PalindromeCheckerApp {
 
-    public static boolean isPalindrome(String str) {
-        Node head = null, tail = null;
-        for (int i = 0; i < str.length(); i++) {
-            Node newNode = new Node(str.charAt(i));
-            if (head == null) {
-                head = tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-
-        Node slow = head, fast = head, prev = null;
-        while (fast != null && fast.next != null) {
-            fast = fast.next.next;
-            Node nextSlow = slow.next;
-            slow.next = prev;
-            prev = slow;
-            slow = nextSlow;
-        }
-
-        Node firstHalf = prev;
-        Node secondHalf = (fast != null) ? slow.next : slow;
-
-        while (firstHalf != null && secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) return false;
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
-        }
-
-        return true;
+    public static boolean isPalindrome(String str, int start, int end) {
+        if (start >= end) return true;
+        if (str.charAt(start) != str.charAt(end)) return false;
+        return isPalindrome(str, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
@@ -46,7 +13,7 @@ public class PalindromeCheckerApp {
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        if (isPalindrome(input)) {
+        if (isPalindrome(input, 0, input.length() - 1)) {
             System.out.println(input + " is a Palindrome");
         } else {
             System.out.println(input + " is Not a Palindrome");
