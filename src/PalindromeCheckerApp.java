@@ -7,7 +7,6 @@ interface PalindromeStrategy {
     boolean check(String input);
 }
 
-// Stack-based strategy
 class StackStrategy implements PalindromeStrategy {
     @Override
     public boolean check(String input) {
@@ -20,7 +19,6 @@ class StackStrategy implements PalindromeStrategy {
     }
 }
 
-// Deque-based strategy
 class DequeStrategy implements PalindromeStrategy {
     @Override
     public boolean check(String input) {
@@ -33,20 +31,17 @@ class DequeStrategy implements PalindromeStrategy {
     }
 }
 
-// Context class
-class PalindromeChecker {
-    private PalindromeStrategy strategy;
-
-    public PalindromeChecker(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void setStrategy(PalindromeStrategy strategy) {
-        this.strategy = strategy;
-    }
-
+class RecursiveStrategy implements PalindromeStrategy {
+    @Override
     public boolean check(String input) {
-        return strategy.check(input);
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+        return checkRecursive(normalized, 0, normalized.length() - 1);
+    }
+
+    private boolean checkRecursive(String str, int start, int end) {
+        if (start >= end) return true;
+        if (str.charAt(start) != str.charAt(end)) return false;
+        return checkRecursive(str, start + 1, end - 1);
     }
 }
 
@@ -56,19 +51,25 @@ public class PalindromeCheckerApp {
         System.out.print("Enter a string: ");
         String input = sc.nextLine();
 
-        System.out.println("Choose strategy: 1-Stack, 2-Deque");
-        int choice = sc.nextInt();
+        PalindromeStrategy[] strategies = {
+                new StackStrategy(),
+                new DequeStrategy(),
+                new RecursiveStrategy()
+        };
 
-        PalindromeStrategy strategy;
-        if (choice == 1) strategy = new StackStrategy();
-        else strategy = new DequeStrategy();
+        String[] names = {"Stack Strategy", "Deque Strategy", "Recursive Strategy"};
 
-        PalindromeChecker checker = new PalindromeChecker(strategy);
+        System.out.println("Performance Comparison:");
+        for (int i = 0; i < strategies.length; i++) {
+            long startTime = System.nanoTime();
+            boolean result = strategies[i].check(input);
+            long endTime = System.nanoTime();
+            long duration = endTime - startTime;
 
-        if (checker.check(input)) {
-            System.out.println(input + " is a Palindrome");
-        } else {
-            System.out.println(input + " is Not a Palindrome");
+            System.out.printf("%s: %s, Time: %d ns%n",
+                    names[i],
+                    result ? "Palindrome" : "Not Palindrome",
+                    duration);
         }
 
         sc.close();
